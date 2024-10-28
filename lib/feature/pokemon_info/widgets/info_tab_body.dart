@@ -4,8 +4,9 @@ import 'package:pokedex_flutter_riverpod/classes/pokemon_color_picker.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_ext.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_species_ext.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/about_tab.dart';
+import 'package:pokedex_flutter_riverpod/providers/pokemon_info_page_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/selected_pokemon_provider.dart';
-import 'package:pokedex_flutter_riverpod/providers/selected_pokemon_species_provider.dart';
+import 'package:pokedex_flutter_riverpod/providers/pokemon_species_provider.dart';
 import 'package:pokedex_flutter_riverpod/utils/extension.dart';
 import 'package:pokedex_flutter_riverpod/utils/strings.dart';
 import 'package:pokedex_flutter_riverpod/widgets/loading_indicator.dart';
@@ -15,12 +16,12 @@ class InfoTabBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedPokemonSpecies = ref.watch(selectedPokemonSpeciesProvider);
+    final pokemonInfoPageValue = ref.watch(pokemonInfoPageProvider);
     final selectedPokemon = ref.read(selectedPokemonProvider);
     final typeDecorationColor = PokemonColorPicker.typeDecorationColor(selectedPokemon.primaryColor, isDarkened: true);
 
-    return selectedPokemonSpecies.when(
-      data: (pokemonSpecies) => Column(
+    return pokemonInfoPageValue.when(
+      data: (_) => Column(
         children: [
           TabBar(
             labelColor: typeDecorationColor,
@@ -33,7 +34,7 @@ class InfoTabBody extends ConsumerWidget {
               children: [
                 AboutTab(
                   selectedPokemon: selectedPokemon,
-                  flavorTextEnglish: pokemonSpecies.flavorTextEnglish,
+                  flavorTextEnglish: ref.read(pokemonSpeciesProvider).flavorTextEnglish,
                 ),
                 const SizedBox(),
                 const SizedBox(),
