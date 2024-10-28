@@ -60,7 +60,7 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final pokemonList = ref.watch(pokemonListProvider);
+    final pokemonListValue = ref.watch(pokemonListProvider);
     return ListScaffold(
       appBarLeading: Text(
         appTitle,
@@ -83,7 +83,7 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
         onRefresh: ref.read(pokemonListProvider.notifier).initPokemonListPage,
         child: Padding(
           padding: pokemonListPagePadding,
-          child: pokemonList.when(
+          child: pokemonListValue.when(
             data: (pokemonList) => CustomScrollView(
               controller: _scrollController,
               slivers: [
