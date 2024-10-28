@@ -11,6 +11,7 @@ import 'package:pokedex_flutter_riverpod/extensions/pokemon_type_ext.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_info_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_sprites_dto.dart';
+import 'package:pokedex_flutter_riverpod/utils/const.dart';
 
 extension PokemonExt on Pokemon {
   PokemonDto toDto() => PokemonDto(
@@ -34,4 +35,6 @@ extension PokemonDtoExt on PokemonDto {
   String get primaryTypeName => typeList.firstOrNull?.name ?? '';
 
   String get capitalizedNamed => name.capitalize();
+
+  String formatId() => '#${id.toString().padLeft(idNumberPadWidth, '0')}';
 }
