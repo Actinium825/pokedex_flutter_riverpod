@@ -16,6 +16,8 @@ class PokemonList extends _$PokemonList {
   }
 
   Future<void> initPokemonListPage() async {
+    state = const AsyncLoading();
+
     await ref.watch(simplePokemonListProvider.notifier).getSimplePokemonList();
 
     final simplePokemonList = ref.read(simplePokemonListProvider).simplePokemonList;

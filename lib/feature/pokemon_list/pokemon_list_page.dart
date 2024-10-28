@@ -1,17 +1,19 @@
+import 'dart:async';
+
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/list_scaffold.dart';
-import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/pokemon_card.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/infinite_list.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/search_field.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/theme_choice_dialog.dart';
-import 'package:pokedex_flutter_riverpod/providers/loading_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/pokemon_list_provider.dart';
+import 'package:pokedex_flutter_riverpod/providers/search_text_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/selected_theme_provider.dart';
 import 'package:pokedex_flutter_riverpod/utils/const.dart';
 import 'package:pokedex_flutter_riverpod/utils/extension.dart';
 import 'package:pokedex_flutter_riverpod/utils/strings.dart';
-import 'package:pokedex_flutter_riverpod/widgets/loading_indicator.dart';
 
 class PokemonListPage extends ConsumerStatefulWidget {
   const PokemonListPage({super.key});
@@ -26,11 +28,12 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
   late final ScrollController _scrollController;
   late final TextEditingController _textEditingController;
   late final ValueNotifier<bool> _isSearchingNotifier;
+  Timer? _debouncer;
 
   @override
   void initState() {
     _scrollController = ScrollController()..addListener(_onReachEnd);
-    _textEditingController = TextEditingController();
+    _textEditingController = TextEditingController()..addListener(_onUpdateText);
     _isSearchingNotifier = ValueNotifier(false);
     super.initState();
   }
@@ -70,6 +73,14 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
     _onClearText();
   }
 
+  void _onUpdateText() {
+    _debouncer?.cancel();
+    _debouncer = Timer(
+      debouncerDelayInMilliseconds.milliseconds,
+      () => ref.read(searchTextProvider.notifier).state = _textEditingController.text,
+    );
+  }
+
   Future<void> _onRefresh() async {
     _onClearText();
     if (_isSearchingNotifier.value) _isSearchingNotifier.value = false;
@@ -82,7 +93,6 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final pokemonListValue = ref.watch(pokemonListProvider);
     return ListScaffold(
       appBarLeading: ValueListenableBuilder<bool>(
         valueListenable: _isSearchingNotifier,
@@ -121,35 +131,7 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
         onRefresh: _onRefresh,
         child: Padding(
           padding: pokemonListPagePadding,
-          child: pokemonListValue.when(
-            data: (pokemonList) => CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverGrid(
-                  gridDelegate: pokemonGridDelegate,
-                  delegate: SliverChildBuilderDelegate(
-                    (_, index) => PokemonCard(
-                      pokemon: pokemonList[index],
-                      // TODO: Add function
-                      onTap: () {},
-                    ),
-                    childCount: pokemonList.length,
-                  ),
-                ),
-                if (ref.watch(loadingProvider) == getMorePokemonKey)
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: progressIndicatorFooterPadding,
-                      child: LoadingIndicator(),
-                    ),
-                  )
-                else
-                  const SliverToBoxAdapter(child: SizedBox(height: pokemonListPageFooterHeight))
-              ],
-            ),
-            loading: LoadingIndicator.new,
-            error: (_, __) => const AlertDialog(title: Text(emptyPokemonLabel)),
-          ),
+          child: InfiniteList(scrollController: _scrollController),
         ),
       ),
     );
