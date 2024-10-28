@@ -5,3 +5,6 @@ const baseUrl = 'https://pokeapi.co/api/v2';
 const appTitle = 'Pokedex';
 const chooseThemeMenuLabel = 'Choose Theme';
 const emptyPokemonLabel = 'No Pokemon Found';
+
+// Loading Keys
+const getMorePokemonKey = 'get-more-pokemon';
