@@ -1,3 +1,6 @@
+# Build files
+*.g.dart
+
 # Miscellaneous
 *.class
 *.log
