@@ -4,12 +4,15 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_info/pokemon_info_page.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/list_scaffold.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/infinite_list.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/search_field.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/theme_choice_dialog.dart';
+import 'package:pokedex_flutter_riverpod/model/dto/pokemon_dto.dart';
 import 'package:pokedex_flutter_riverpod/providers/pokemon_list_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/search_text_provider.dart';
+import 'package:pokedex_flutter_riverpod/providers/selected_pokemon_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/selected_theme_provider.dart';
 import 'package:pokedex_flutter_riverpod/utils/const.dart';
 import 'package:pokedex_flutter_riverpod/utils/extension.dart';
@@ -91,6 +94,11 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
     if (_textEditingController.text.isNotEmpty) _textEditingController.clear();
   }
 
+  void _onTapPokemonCard(PokemonDto selectedPokemon) {
+    ref.watch(selectedPokemonProvider.notifier).state = selectedPokemon;
+    context.pushNamed(PokemonInfoPage.route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListScaffold(
@@ -131,7 +139,10 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
         onRefresh: _onRefresh,
         child: Padding(
           padding: pokemonListPagePadding,
-          child: InfiniteList(scrollController: _scrollController),
+          child: InfiniteList(
+            scrollController: _scrollController,
+            onTapPokemonCard: _onTapPokemonCard,
+          ),
         ),
       ),
     );
