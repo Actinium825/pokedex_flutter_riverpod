@@ -1,24 +1,25 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_ability_ext.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_ext.dart';
+import 'package:pokedex_flutter_riverpod/extensions/pokemon_species_ext.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/table_label.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_dto.dart';
+import 'package:pokedex_flutter_riverpod/providers/pokemon_species_provider.dart';
 import 'package:pokedex_flutter_riverpod/utils/const.dart';
 import 'package:pokedex_flutter_riverpod/utils/extension.dart';
 import 'package:pokedex_flutter_riverpod/classes/pokemon_color_picker.dart';
 import 'package:pokedex_flutter_riverpod/utils/strings.dart';
 import 'package:sprintf/sprintf.dart';
 
-class AboutTab extends StatelessWidget {
+class AboutTab extends ConsumerWidget {
   const AboutTab({
     required this.selectedPokemon,
-    required this.flavorTextEnglish,
     super.key,
   });
 
   final PokemonDto selectedPokemon;
-  final String flavorTextEnglish;
 
   List<MapEntry<Color, String>> get _table {
     final primaryColor = selectedPokemon.primaryColor;
@@ -33,7 +34,7 @@ class AboutTab extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final primaryColor = selectedPokemon.primaryColor;
     final borderSide = BorderSide(color: primaryColor);
 
@@ -44,7 +45,7 @@ class AboutTab extends StatelessWidget {
           Padding(
             padding: flavorTextPadding,
             child: Text(
-              flavorTextEnglish,
+              ref.read(pokemonSpeciesProvider).flavorTextEnglish,
               textAlign: TextAlign.center,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: PokemonColorPicker.typeDecorationColor(primaryColor, isDarkened: true),
