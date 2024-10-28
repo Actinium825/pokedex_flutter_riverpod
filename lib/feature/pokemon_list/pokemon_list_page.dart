@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/list_scaffold.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/pokemon_card.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/theme_choice_dialog.dart';
+import 'package:pokedex_flutter_riverpod/providers/pokemon_list_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/selected_theme_provider.dart';
+import 'package:pokedex_flutter_riverpod/utils/const.dart';
 import 'package:pokedex_flutter_riverpod/utils/extension.dart';
 import 'package:pokedex_flutter_riverpod/utils/strings.dart';
+import 'package:pokedex_flutter_riverpod/widgets/loading_indicator.dart';
 
 class PokemonListPage extends ConsumerStatefulWidget {
   const PokemonListPage({super.key});
@@ -36,6 +40,7 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final pokemonList = ref.watch(pokemonListProvider);
     return ListScaffold(
       appBarLeading: Text(
         appTitle,
@@ -54,7 +59,29 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
           ).toList(),
         ),
       ],
-      body: const SizedBox(),
+      body: Padding(
+        padding: pokemonListPagePadding,
+        child: pokemonList.when(
+          data: (pokemonList) => CustomScrollView(
+            slivers: [
+              SliverGrid(
+                gridDelegate: pokemonGridDelegate,
+                delegate: SliverChildBuilderDelegate(
+                  (_, index) => PokemonCard(
+                    pokemon: pokemonList[index],
+                    // TODO: Add function
+                    onTap: () {},
+                  ),
+                  childCount: pokemonList.length,
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: pokemonListPageFooterHeight))
+            ],
+          ),
+          loading: () => const LoadingIndicator(),
+          error: (_, __) => const AlertDialog(title: Text(emptyPokemonLabel)),
+        ),
+      ),
     );
   }
 }

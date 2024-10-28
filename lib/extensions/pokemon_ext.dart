@@ -1,4 +1,7 @@
+import 'package:dartx/dartx.dart';
+import 'package:flutter/material.dart';
 import 'package:pokedex_flutter_riverpod/apis/model/pokemon.dart';
+import 'package:pokedex_flutter_riverpod/classes/pokemon_color_picker.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_info_ext.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_ability_ext.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_base_stat_ext.dart';
@@ -23,4 +26,12 @@ extension PokemonExt on Pokemon {
         typeList: [...?typeList?.map((type) => type.toDto())],
         weightInDecimeters: weightInDecimeters ?? 0,
       );
+}
+
+extension PokemonDtoExt on PokemonDto {
+  Color get primaryColor => PokemonColorPicker.getColor(primaryTypeName);
+
+  String get primaryTypeName => typeList.firstOrNull?.name ?? '';
+
+  String get capitalizedNamed => name.capitalize();
 }
