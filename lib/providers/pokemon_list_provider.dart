@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pokemon_list_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class PokemonList extends _$PokemonList {
   @override
   Future<List<PokemonDto>> build() async {

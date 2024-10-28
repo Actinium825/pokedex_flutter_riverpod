@@ -4,6 +4,7 @@ import 'package:pokedex_flutter_riverpod/classes/pokemon_color_picker.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_ext.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/about_tab.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/evolution_tab.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/moves_tab.dart';
 import 'package:pokedex_flutter_riverpod/providers/pokemon_evolution_chain_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/pokemon_evolution_list_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/pokemon_info_page_provider.dart';
@@ -38,7 +39,7 @@ class InfoTabBody extends ConsumerWidget {
                   pokemonEvolutionChain: ref.read(pokemonEvolutionChainProvider),
                   pokemonEvolutionList: ref.read(pokemonEvolutionListProvider),
                 ),
-                const SizedBox(),
+                MovesTab(selectedPokemon: selectedPokemon),
               ],
             ),
           ),
