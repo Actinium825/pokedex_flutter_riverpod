@@ -34,4 +34,14 @@ class PokemonApi {
 
     return responses.map((response) => Pokemon.fromJson(response.data!).toDto()).toList();
   }
+
+  Future<List<PokemonDto>> searchPokemon({required String pokemonName}) async {
+    final baseUrl = apiClient.baseUrl;
+    final fetchUrl = '$baseUrl/pokemon/$pokemonName';
+
+    final response = await apiClient.dio.get<Json>(fetchUrl);
+    final pokemon = Pokemon.fromJson(response.data!);
+
+    return [pokemon.toDto()];
+  }
 }
