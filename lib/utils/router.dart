@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex_flutter_riverpod/feature/pokemon_list_page.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_list/pokemon_list_page.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
