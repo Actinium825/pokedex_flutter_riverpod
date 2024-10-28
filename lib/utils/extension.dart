@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension BuildContextExt on BuildContext {
-  TextTheme get textTheme => Theme.of(this).textTheme;
+  TextTheme get textTheme => themeData.textTheme;
+
+  ThemeData get themeData => Theme.of(this);
 }
