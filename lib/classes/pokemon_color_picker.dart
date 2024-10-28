@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_flutter_riverpod/utils/const.dart';
 
 class PokemonColorPicker {
   static Color getColor(String type) => switch (type) {
@@ -22,4 +23,11 @@ class PokemonColorPicker {
         'fairy' => const Color(0xffD685AD),
         _ => const Color(0xffffffff),
       };
+
+  static Color typeDecorationColor(Color color, {bool isDarkened = false}) {
+    final hsl = HSLColor.fromColor(color);
+    final hslLight = hsl.withLightness(hsl.lightness + (isDarkened ? -colorModifier : colorModifier));
+
+    return hslLight.toColor();
+  }
 }

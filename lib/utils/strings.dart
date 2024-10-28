@@ -9,3 +9,6 @@ const searchFieldHintText = 'Search Pokemon';
 
 // Loading Keys
 const getMorePokemonKey = 'get-more-pokemon';
+
+// Pokemon Info Page
+const tabLabels = ['About', 'Evolution', 'Moves'];
