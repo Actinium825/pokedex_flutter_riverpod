@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/list_scaffold.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/pokemon_card.dart';
 import 'package:pokedex_flutter_riverpod/feature/pokemon_list/widgets/theme_choice_dialog.dart';
+import 'package:pokedex_flutter_riverpod/providers/loading_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/pokemon_list_provider.dart';
 import 'package:pokedex_flutter_riverpod/providers/selected_theme_provider.dart';
 import 'package:pokedex_flutter_riverpod/utils/const.dart';
@@ -21,6 +22,20 @@ class PokemonListPage extends ConsumerStatefulWidget {
 }
 
 class _PokemonListPageState extends ConsumerState<PokemonListPage> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController()..addListener(_onReachEnd);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void _showThemeChoiceDialog() => showDialog<void>(
         context: context,
         builder: (_) => ThemeChoiceDialog(
@@ -38,9 +53,14 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
     context.pop();
   }
 
+  void _onReachEnd() {
+    final position = _scrollController.position;
+    if (position.pixels == position.maxScrollExtent) ref.read(pokemonListProvider.notifier).getMorePokemon();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final pokemonList = ref.watch(pokemonListProvider);
+    final pokemonListValue = ref.watch(pokemonListProvider);
     return ListScaffold(
       appBarLeading: Text(
         appTitle,
@@ -59,27 +79,39 @@ class _PokemonListPageState extends ConsumerState<PokemonListPage> {
           ).toList(),
         ),
       ],
-      body: Padding(
-        padding: pokemonListPagePadding,
-        child: pokemonList.when(
-          data: (pokemonList) => CustomScrollView(
-            slivers: [
-              SliverGrid(
-                gridDelegate: pokemonGridDelegate,
-                delegate: SliverChildBuilderDelegate(
-                  (_, index) => PokemonCard(
-                    pokemon: pokemonList[index],
-                    // TODO: Add function
-                    onTap: () {},
+      body: RefreshIndicator(
+        onRefresh: ref.read(pokemonListProvider.notifier).initPokemonListPage,
+        child: Padding(
+          padding: pokemonListPagePadding,
+          child: pokemonListValue.when(
+            data: (pokemonList) => CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverGrid(
+                  gridDelegate: pokemonGridDelegate,
+                  delegate: SliverChildBuilderDelegate(
+                    (_, index) => PokemonCard(
+                      pokemon: pokemonList[index],
+                      // TODO: Add function
+                      onTap: () {},
+                    ),
+                    childCount: pokemonList.length,
                   ),
-                  childCount: pokemonList.length,
                 ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: pokemonListPageFooterHeight))
-            ],
+                if (ref.watch(loadingProvider) == getMorePokemonKey)
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: progressIndicatorFooterPadding,
+                      child: LoadingIndicator(),
+                    ),
+                  )
+                else
+                  const SliverToBoxAdapter(child: SizedBox(height: pokemonListPageFooterHeight))
+              ],
+            ),
+            loading: LoadingIndicator.new,
+            error: (_, __) => const AlertDialog(title: Text(emptyPokemonLabel)),
           ),
-          loading: () => const LoadingIndicator(),
-          error: (_, __) => const AlertDialog(title: Text(emptyPokemonLabel)),
         ),
       ),
     );
