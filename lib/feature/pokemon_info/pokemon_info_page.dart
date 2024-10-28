@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedex_flutter_riverpod/classes/pokemon_color_picker.dart';
 import 'package:pokedex_flutter_riverpod/extensions/pokemon_ext.dart';
-import 'package:pokedex_flutter_riverpod/feature/pokemon_info/info_scaffold.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/info_scaffold.dart';
+import 'package:pokedex_flutter_riverpod/feature/pokemon_info/widgets/info_tab_body.dart';
 import 'package:pokedex_flutter_riverpod/providers/selected_pokemon_provider.dart';
 import 'package:pokedex_flutter_riverpod/utils/const.dart';
 import 'package:pokedex_flutter_riverpod/utils/extension.dart';
@@ -18,13 +18,10 @@ class PokemonInfoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedPokemon = ref.read(selectedPokemonProvider);
-    final primaryColor = selectedPokemon.primaryColor;
     final textTheme = context.textTheme;
-    final themeData = context.themeData;
-    final typeDecorationColor = PokemonColorPicker.typeDecorationColor(primaryColor, isDarkened: true);
 
     return InfoScaffold(
-      color: primaryColor,
+      color: selectedPokemon.primaryColor,
       children: [
         Padding(
           padding: infoPageHeaderPadding,
@@ -60,30 +57,12 @@ class PokemonInfoPage extends ConsumerWidget {
           child: Container(
             padding: infoPageModalPadding,
             decoration: BoxDecoration(
-              color: themeData.primaryColor,
+              color: context.themeData.primaryColor,
               borderRadius: infoPageModalRadius,
             ),
             child: DefaultTabController(
               length: tabLabels.length,
-              child: Column(
-                children: [
-                  TabBar(
-                    labelColor: typeDecorationColor,
-                    indicatorColor: typeDecorationColor,
-                    unselectedLabelColor: themeData.unselectedWidgetColor,
-                    tabs: tabLabels.map((tabLabel) => Tab(text: tabLabel)).toList(),
-                  ),
-                  const Expanded(
-                    child: TabBarView(
-                      children: [
-                        SizedBox(),
-                        SizedBox(),
-                        SizedBox(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              child: const InfoTabBody(),
             ),
           ),
         ),
