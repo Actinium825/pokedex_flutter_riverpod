@@ -19,7 +19,7 @@ dependencies:
   go_router: ^14.3.0
   json_annotation: ^4.9.0
   riverpod_annotation: ^2.6.1
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.3.3
   sprintf: ^7.0.0
 
 dev_dependencies:
