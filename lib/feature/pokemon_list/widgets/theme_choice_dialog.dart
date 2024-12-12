@@ -1,10 +1,8 @@
 import 'package:dartx/dartx.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pokedex_flutter_riverpod/classes/adaptive_stateless_widget.dart';
 import 'package:pokedex_flutter_riverpod/utils/strings.dart';
 
-class ThemeChoiceDialog extends AdaptiveStatelessWidget {
+class ThemeChoiceDialog extends StatelessWidget {
   const ThemeChoiceDialog({
     required this.savedThemeMode,
     required this.onSelectTheme,
@@ -15,28 +13,8 @@ class ThemeChoiceDialog extends AdaptiveStatelessWidget {
   final ValueChanged<ThemeMode?> onSelectTheme;
 
   @override
-  Widget buildAndroid(BuildContext context) {
-    return AlertDialog(
-      title: const Text(chooseThemeMenuLabel),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: ThemeMode.values.map(
-          (themeMode) {
-            return RadioListTile(
-              title: Text(themeMode.name.capitalize()),
-              value: themeMode,
-              groupValue: savedThemeMode,
-              onChanged: onSelectTheme,
-            );
-          },
-        ).toList(),
-      ),
-    );
-  }
-
-  @override
-  Widget buildIos(BuildContext context) {
-    return CupertinoAlertDialog(
+  Widget build(BuildContext context) {
+    return AlertDialog.adaptive(
       title: const Text(chooseThemeMenuLabel),
       content: Column(
         mainAxisSize: MainAxisSize.min,
