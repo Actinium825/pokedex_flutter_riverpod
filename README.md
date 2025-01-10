@@ -1,10 +1,22 @@
 # Flutter App for Pokedex with Riverpod
 
+Just a simple Flutter Mobile App for showing Pokemon from the RESTful PokeAPI like a Pokedex.
+Initially gets a group of Pokemon with infinite scroll feature for getting additional pokemon, with 
+also an ability for searching an individual Pokemon.
+Each Pokemon's card can be clicked upon to view additional details, evolution chain, and moves.
+Riverpod and Shared Preferences are utilized for state management and saving the selected theme mode.
+Go Router is used for routing.
+
+## Contents
+- [Steps to run](#steps-to-run)
+- [Features](#features)
+- [Credits](#credits)
+- [Screenshots](#screenshots)
+
 ## Steps to run
 1. Install latest Flutter version and set in SDK Manager
 2. Run `flutter pub get`
 3. Run `flutter pub run build_runner build --delete-conflicting-outputs`
-4. Run `dart format -l 120 --set-exit-if-changed .`
 
 ## Features
 - Show Pokemon from RESTful PokeAPI
