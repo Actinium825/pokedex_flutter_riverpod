@@ -36,7 +36,7 @@ class PokemonList extends _$PokemonList {
     final simplePokemonList = ref.read(simplePokemonListProvider).simplePokemonList;
     final receivedPokemonList = await ref.read(pokemonApiProvider).getPokemonList(simplePokemonList: simplePokemonList);
 
-    state = AsyncValue.data([...?state.value, ...receivedPokemonList]);
+    state = AsyncValue.data([...?state.value?.followedBy(receivedPokemonList)]);
 
     ref.read(loadingProvider.notifier).clear();
   }
