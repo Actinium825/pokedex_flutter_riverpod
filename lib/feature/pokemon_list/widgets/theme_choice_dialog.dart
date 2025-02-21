@@ -16,18 +16,21 @@ class ThemeChoiceDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog.adaptive(
       title: const Text(chooseThemeMenuLabel),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: ThemeMode.values.map(
-          (themeMode) {
-            return RadioListTile(
-              title: Text(themeMode.name.capitalize()),
-              value: themeMode,
-              groupValue: savedThemeMode,
-              onChanged: onSelectTheme,
-            );
-          },
-        ).toList(),
+      content: Material(
+        color: Colors.transparent,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: ThemeMode.values.map(
+            (themeMode) {
+              return RadioListTile.adaptive(
+                title: Text(themeMode.name.capitalize()),
+                value: themeMode,
+                groupValue: savedThemeMode,
+                onChanged: onSelectTheme,
+              );
+            },
+          ).toList(),
+        ),
       ),
     );
   }
