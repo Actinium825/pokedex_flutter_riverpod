@@ -62,7 +62,10 @@ class PokemonInfoPage extends ConsumerWidget {
             ),
             child: DefaultTabController(
               length: tabLabels.length,
-              child: const InfoTabBody(),
+              child: const Material(
+                color: Colors.transparent,
+                child: InfoTabBody(),
+              ),
             ),
           ),
         ),
