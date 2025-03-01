@@ -6,7 +6,7 @@ class PokedexTheme {
   static const textColorWhite = Colors.white;
   static const textColorDarkMode = Colors.black38;
 
-  static ThemeData themeRegular = ThemeData(
+  static final themeRegular = ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.white,
     useMaterial3: true,
@@ -42,7 +42,7 @@ class PokedexTheme {
     ),
   );
 
-  static ThemeData themeDark = ThemeData(
+  static final themeDark = ThemeData(
     brightness: Brightness.dark,
     primaryColor: const Color.fromARGB(255, 77, 72, 72),
     useMaterial3: true,

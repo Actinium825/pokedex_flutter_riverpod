@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pokedex_flutter_riverpod/model/dto/pokemon_info_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_ability_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_base_stat_dto.dart';
+import 'package:pokedex_flutter_riverpod/model/dto/pokemon_info_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_move_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_sprites_dto.dart';
 import 'package:pokedex_flutter_riverpod/model/dto/pokemon_type_dto.dart';
