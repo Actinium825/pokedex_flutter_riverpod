@@ -6,7 +6,7 @@ part 'pokemon_base_stat.freezed.dart';
 part 'pokemon_base_stat.g.dart';
 
 @freezed
-class PokemonBaseStat with _$PokemonBaseStat {
+sealed class PokemonBaseStat with _$PokemonBaseStat {
   const factory PokemonBaseStat({
     @JsonKey(name: 'base_stat') int? baseStat,
     @JsonKey(name: 'stat') PokemonInfo? statInfo,

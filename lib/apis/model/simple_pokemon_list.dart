@@ -6,7 +6,7 @@ part 'simple_pokemon_list.freezed.dart';
 part 'simple_pokemon_list.g.dart';
 
 @freezed
-class SimplePokemonList with _$SimplePokemonList {
+sealed class SimplePokemonList with _$SimplePokemonList {
   const factory SimplePokemonList({
     @JsonKey(name: 'count') int? count,
     @JsonKey(name: 'next') String? next,
