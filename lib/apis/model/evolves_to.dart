@@ -6,7 +6,7 @@ part 'evolves_to.freezed.dart';
 part 'evolves_to.g.dart';
 
 @freezed
-class EvolvesTo with _$EvolvesTo {
+sealed class EvolvesTo with _$EvolvesTo {
   const factory EvolvesTo({
     @JsonKey(name: 'species') PokemonInfo? speciesInfo,
     @JsonKey(name: 'evolves_to') List<EvolvesTo>? evolutions,

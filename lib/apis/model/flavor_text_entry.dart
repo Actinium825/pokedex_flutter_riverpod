@@ -6,7 +6,7 @@ part 'flavor_text_entry.freezed.dart';
 part 'flavor_text_entry.g.dart';
 
 @freezed
-class FlavorTextEntry with _$FlavorTextEntry {
+sealed class FlavorTextEntry with _$FlavorTextEntry {
   const factory FlavorTextEntry({
     @JsonKey(name: 'flavor_text') String? flavorText,
     @JsonKey(name: 'language') PokemonInfo? languageInfo,

@@ -5,7 +5,7 @@ part 'official_artwork.freezed.dart';
 part 'official_artwork.g.dart';
 
 @freezed
-class OfficialArtwork with _$OfficialArtwork {
+sealed class OfficialArtwork with _$OfficialArtwork {
   const factory OfficialArtwork({
     @JsonKey(name: 'front_default') String? imageUrl,
   }) = _OfficialArtwork;

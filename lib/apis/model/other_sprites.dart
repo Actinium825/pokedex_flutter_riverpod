@@ -6,7 +6,7 @@ part 'other_sprites.freezed.dart';
 part 'other_sprites.g.dart';
 
 @freezed
-class OtherSprites with _$OtherSprites {
+sealed class OtherSprites with _$OtherSprites {
   const factory OtherSprites({
     @JsonKey(name: 'official-artwork') OfficialArtwork? officialArtwork,
   }) = _OtherSprites;

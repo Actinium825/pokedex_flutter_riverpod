@@ -5,7 +5,7 @@ part 'evolution_chain_info.freezed.dart';
 part 'evolution_chain_info.g.dart';
 
 @freezed
-class EvolutionChainInfo with _$EvolutionChainInfo {
+sealed class EvolutionChainInfo with _$EvolutionChainInfo {
   const factory EvolutionChainInfo({
     @JsonKey(name: 'url') String? url,
   }) = _EvolutionChainInfo;

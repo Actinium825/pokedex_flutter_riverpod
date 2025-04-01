@@ -6,7 +6,7 @@ part 'pokemon_sprites.freezed.dart';
 part 'pokemon_sprites.g.dart';
 
 @freezed
-class PokemonSprites with _$PokemonSprites {
+sealed class PokemonSprites with _$PokemonSprites {
   const factory PokemonSprites({
     @JsonKey(name: 'front_default') String? frontDefaultImageUrl,
     @JsonKey(name: 'other') OtherSprites? otherSprites,
