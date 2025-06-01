@@ -11,7 +11,6 @@ class PokedexTheme {
     primaryColor: Colors.white,
     useMaterial3: true,
     unselectedWidgetColor: _unselectedWidgetColor,
-    indicatorColor: _indicatorColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: const TextTheme(
       displayLarge: TextStyle(
@@ -40,6 +39,7 @@ class PokedexTheme {
         color: textColorWhite,
       ),
     ),
+    tabBarTheme: const TabBarThemeData(indicatorColor: _indicatorColor),
   );
 
   static final themeDark = ThemeData(
@@ -47,7 +47,6 @@ class PokedexTheme {
     primaryColor: const Color.fromARGB(255, 77, 72, 72),
     useMaterial3: true,
     unselectedWidgetColor: _unselectedWidgetColor,
-    indicatorColor: _indicatorColor,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: const TextTheme(
       displayLarge: TextStyle(
@@ -76,5 +75,6 @@ class PokedexTheme {
         color: textColorDarkMode,
       ),
     ),
+    tabBarTheme: const TabBarThemeData(indicatorColor: _indicatorColor),
   );
 }
