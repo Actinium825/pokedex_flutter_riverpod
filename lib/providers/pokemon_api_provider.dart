@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex_flutter_riverpod/apis/apis_client.dart';
 import 'package:pokedex_flutter_riverpod/apis/pokemon_api.dart';
 import 'package:pokedex_flutter_riverpod/utils/strings.dart';
